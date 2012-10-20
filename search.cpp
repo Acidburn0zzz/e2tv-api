@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMap>
+#include <QCoreApplication>
 
 #include <iostream>
 
@@ -17,7 +18,7 @@ Search::Search(const Demand &demand, QObject *parent) :
 	url.addQueryItem("indent", "true");
 	url.addQueryItem("prefixed", "true");
 	url.addQueryItem("filter", "(any type:/film/film type:/tv/tv_program)");
-	url.addQueryItem("mql_output", "[{\"name\": null, \"mid\":null, \"name\": [], \"type\":[]}]");
+	url.addQueryItem("mql_output", R"*([{"name": null, "mid":null, "name": [], "type":[]}]")*");
 }
 
 void Search::execute()
@@ -42,5 +43,6 @@ void Search::replyFinished(QNetworkReply *reply)
 	QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
 	QJsonDocument listDoc(jsonDoc.object()["result"].toArray());
 
-	std::cerr << QString::fromUtf8(listDoc.toJson()).toStdString();
+	std::wcout << QString::fromUtf8(listDoc.toJson()).toStdWString();
+	qApp->exit();
 }
