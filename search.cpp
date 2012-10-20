@@ -18,7 +18,7 @@ Search::Search(const Demand &demand, QObject *parent) :
 	url.addQueryItem("indent", "true");
 	url.addQueryItem("prefixed", "true");
 	url.addQueryItem("filter", "(any type:/film/film type:/tv/tv_program)");
-	url.addQueryItem("mql_output", R"*([{"name": null, "mid":null, "name": [], "type":[]}]")*");
+	url.addQueryItem("mql_output", R"*([{"name": null, "mid":null, "name": [], "/common/topic/image": [{}], "type":[]}]")*");
 }
 
 void Search::execute()
