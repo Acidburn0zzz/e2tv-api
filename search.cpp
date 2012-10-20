@@ -36,7 +36,7 @@ void Search::replyFinished(QNetworkReply *reply)
 		obj.insert("network_error", reply->errorString());
 
 		QJsonDocument doc(obj);
-		qDebug() << doc.toJson();
+		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
 		return;
 	}
 

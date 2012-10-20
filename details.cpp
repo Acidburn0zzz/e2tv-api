@@ -21,7 +21,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 	}
 
 	if (demand.options.contains("--film"))
-		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(", "name": null,"type": "/film/film", "directed_by": null, "rating": null }])*");
+		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(", "name": null,"type": "/film/film", "directed_by": [], "rating": null }])*");
 	else if (demand.options.contains("--tv"))
 		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(", "name": null, "type": "/tv/tv_program", "seasons": [{ "name": null, "season_number": null, "sort": "season_number", "episodes": [] }] }])*");
 }
@@ -41,7 +41,7 @@ void Details::replyFinished(QNetworkReply *reply)
 		obj.insert("network_error", reply->errorString());
 
 		QJsonDocument doc(obj);
-		qDebug() << doc.toJson();
+		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
 		return;
 	}
 

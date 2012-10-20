@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDebug>
+#include <iostream>
 
 Demand::Demand() : method(INVALID)
 {
@@ -58,6 +59,6 @@ void Demand::execute()
 		QJsonObject obj;
 		obj.insert("error", QString("invalid method"));
 		QJsonDocument doc(obj);
-		qDebug() << doc.toJson();
+		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
 	}
 }
