@@ -11,11 +11,14 @@ public:
 	explicit Channels(QObject *parent = 0);
 
 	void execute();
+	void execute_channels();
+	void execute_broadcasts();
 	
 signals:
 	
 public slots:
-	void replyFinished(QNetworkReply* reply);
+//	void replyFinished_channels(QNetworkReply* reply);
+//	void replyFinished_broadcasts(QNetworkReply* reply);
 };
 
 #endif // CHANNELS_H

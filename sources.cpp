@@ -73,6 +73,7 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 		QJsonObject obj;
 		obj.insert("network_error", reply->errorString());
 		done(QJsonDocument(obj));
+		return;
 	}
 	QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
 
@@ -82,6 +83,7 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 		QJsonObject obj;
 		obj.insert("error", QString("no such film on movies.io"));
 		done(QJsonDocument(obj));
+		return;
 	}
 
 	QJsonObject movieObj = moviesArray.first().toObject();
