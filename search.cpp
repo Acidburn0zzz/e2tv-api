@@ -37,6 +37,7 @@ void Search::replyFinished(QNetworkReply *reply)
 
 		QJsonDocument doc(obj);
 		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
+		qApp->exit();
 		return;
 	}
 

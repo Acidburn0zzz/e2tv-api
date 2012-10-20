@@ -21,9 +21,28 @@ Details::Details(const Demand &demand, QObject *parent) :
 	}
 
 	if (demand.options.contains("--film"))
-		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(", "name": null,"type": "/film/film", "directed_by": [], "rating": null }])*");
+		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(",
+						 "name": null,
+						 "type": "/film/film",
+						 "directed_by": [],
+						 "/common/topic/image": [{}],
+						 "rating": null }])*");
+
+
 	else if (demand.options.contains("--tv"))
-		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(", "name": null, "type": "/tv/tv_program", "seasons": [{ "name": null, "season_number": null, "sort": "season_number", "episodes": [] }] }])*");
+		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(",
+													   "name": null,
+													   "type": "/tv/tv_program",
+													   "/common/topic/image": [{}],
+			"seasons": [{ "name": null, "/common/topic/image": [{}], "season_number": null, "sort": "season_number", "episodes": [{
+			"name" : null,
+			"mid" : null,
+			"/common/topic/image": [{}],
+			"episode_number": null,
+			"sort": "episode_number"
+		  }] }] }])*");
+
+				qDebug() << url.toString();
 }
 
 void Details::execute()
@@ -42,6 +61,7 @@ void Details::replyFinished(QNetworkReply *reply)
 
 		QJsonDocument doc(obj);
 		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
+		qApp->exit();
 		return;
 	}
 

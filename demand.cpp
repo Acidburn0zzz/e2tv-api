@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <iostream>
+#include <QCoreApplication>
 
 Demand::Demand() : method(INVALID)
 {
@@ -60,5 +61,7 @@ void Demand::execute()
 		obj.insert("error", QString("invalid method"));
 		QJsonDocument doc(obj);
 		std::wcout << QString::fromUtf8(doc.toJson()).toStdWString();
+		qApp->exit();
+		return;
 	}
 }
