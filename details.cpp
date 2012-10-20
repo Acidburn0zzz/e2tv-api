@@ -20,7 +20,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 			type = TV;
 	}
 
-	if (demand.options.contains("--film"))
+	if (type == FILM)
 		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(",
 						 "name": null,
 						 "type": "/film/film",
@@ -29,7 +29,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 						 "rating": null }])*");
 
 
-	else if (demand.options.contains("--tv"))
+	else if (type == TV)
 		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(",
 						 "name": null,
 						 "program_creator": [],

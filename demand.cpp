@@ -1,6 +1,7 @@
 #include "demand.h"
 #include "search.h"
 #include "details.h"
+#include "sources.h"
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -54,6 +55,8 @@ void Demand::execute()
 	}
 	else if (method == SOURCES)
 	{
+		Sources* sources = new Sources(*this);
+		sources->execute();
 	}
 	else
 	{

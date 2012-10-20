@@ -18,11 +18,19 @@ TEMPLATE = app
 SOURCES += main.cpp \
     demand.cpp \
     search.cpp \
-    details.cpp
+    details.cpp \
+    sources.cpp \
+    source.cpp \
+    netflixsource.cpp \
+    trailersource.cpp
 
 HEADERS += \
     demand.h \
     search.h \
-    details.h
+    details.h \
+    sources.h \
+    source.h \
+    netflixsource.h \
+    trailersource.h
 
 QMAKE_CXXFLAGS += -std=c++11
