@@ -31,9 +31,10 @@ Details::Details(const Demand &demand, QObject *parent) :
 
 	else if (demand.options.contains("--tv"))
 		url.addQueryItem("query", R"*([{ "mid": ")*" + query + R"*(",
-													   "name": null,
-													   "type": "/tv/tv_program",
-													   "/common/topic/image": [{}],
+						 "name": null,
+						 "program_creator": [],
+						 "type": "/tv/tv_program",
+						 "/common/topic/image": [{}],
 			"seasons": [{ "name": null, "/common/topic/image": [{}], "season_number": null, "sort": "season_number", "episodes": [{
 			"name" : null,
 			"mid" : null,
@@ -41,8 +42,6 @@ Details::Details(const Demand &demand, QObject *parent) :
 			"episode_number": null,
 			"sort": "episode_number"
 		  }] }] }])*");
-
-				qDebug() << url.toString();
 }
 
 void Details::execute()
