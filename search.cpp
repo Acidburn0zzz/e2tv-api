@@ -14,6 +14,7 @@ Search::Search(const Demand &demand, QObject *parent) :
 	QObject(parent), query(demand.query),
 	url("https://www.googleapis.com/freebase/v1/search")
 {
+	url.addQueryItem("key", "AIzaSyBqWmqxOJglrngvGvUdbcS160y3XCBCaaE");
 	url.addQueryItem("query", query);
 	url.addQueryItem("indent", "true");
 	url.addQueryItem("prefixed", "true");

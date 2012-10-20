@@ -11,6 +11,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 	QObject(parent), query(demand.query), url("https://www.googleapis.com/freebase/v1/mqlread"), type(INVALID)
 {
 	url.addQueryItem("indent", "2");
+	url.addQueryItem("key", "AIzaSyBqWmqxOJglrngvGvUdbcS160y3XCBCaaE");
 
 	for (const QString& opt : demand.options)
 	{

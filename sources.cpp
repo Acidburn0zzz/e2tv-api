@@ -12,6 +12,9 @@ Sources::Sources(const Demand &demand, QObject *parent) :
 	url_freebase("https://www.googleapis.com/freebase/v1/mqlread"),
 	url_movies("http://api.movies.io/movies/search")
 {
+	url_freebase.addQueryItem("key", "AIzaSyBqWmqxOJglrngvGvUdbcS160y3XCBCaaE");
+	url_movies.addQueryItem("key", "AIzaSyBqWmqxOJglrngvGvUdbcS160y3XCBCaaE");
+
 	for (const QString& opt : demand.options)
 	{
 		if (opt == "--film" && type == INVALID)
@@ -105,9 +108,6 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 	}
 
 
-
-
-
 	QJsonArray ret;
 
 	for (Source* source : sources)
@@ -122,5 +122,4 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 
 	QJsonDocument sourcesDoc(final);
 	done(sourcesDoc);
-
 }
