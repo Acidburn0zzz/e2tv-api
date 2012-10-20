@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     sources.cpp \
     source.cpp \
     netflixsource.cpp \
-    trailersource.cpp
+    trailersource.cpp \
+    torrentsource.cpp
 
 HEADERS += \
     demand.h \
@@ -31,6 +32,7 @@ HEADERS += \
     sources.h \
     source.h \
     netflixsource.h \
-    trailersource.h
+    trailersource.h \
+    torrentsource.h
 
 QMAKE_CXXFLAGS += -std=c++11

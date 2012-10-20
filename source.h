@@ -17,9 +17,6 @@ public:
 	virtual Kind getKind() = 0;
 	virtual QString getName() = 0;
 	virtual QString getServiceName() = 0;
-
-	virtual bool provideWebLink() { return false; }
-	virtual QString getWebLink() { return  ""; }
 };
 
 #endif // SOURCE_H

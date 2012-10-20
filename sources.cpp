@@ -1,5 +1,6 @@
 #include "sources.h"
 #include "netflixsource.h"
+#include "torrentsource.h"
 #include "trailersource.h"
 #include <iostream>
 #include <QCoreApplication>
@@ -87,12 +88,17 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 
 	if (movieObj.contains("trailer"))
 		sources.append(new TrailerSource(movieObj["trailer"].toObject()));
-//	QString trailer_provider = movieObj["trailer"].toObject()["provider"].toString();
-//	QString trailer = movieObj["trailer"].toObject()["url"].toString();
-//	qDebug() << trailer_provider << trailer;
 
 	if (movieObj["sources"].toObject().contains("netflix"))
 		sources.append(new NetflixSource(movieObj["sources"].toObject()["netflix"].toObject()));
+
+	if (movieObj["sources"].toObject().contains("torrents"))
+	{
+		for (auto val : movieObj["sources"].toObject()["torrents"].toArray())
+		{
+			sources.append(new TorrentSource(val.toObject()));
+		}
+	}
 
 
 	QJsonArray ret;
