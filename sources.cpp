@@ -86,6 +86,8 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 
 	QJsonObject movieObj = moviesArray.first().toObject();
 
+
+
 	if (movieObj.contains("trailer"))
 		sources.append(new TrailerSource(movieObj["trailer"].toObject()));
 
@@ -101,6 +103,9 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 	}
 
 
+
+
+
 	QJsonArray ret;
 
 	for (Source* source : sources)
@@ -108,7 +113,12 @@ void Sources::replyFinished_movies(QNetworkReply *reply)
 		ret.append(source->toJSON());
 	}
 
-	QJsonDocument sourcesDoc(ret);
+	QJsonObject final;
+	final.insert("sources", ret);
+	final.insert("poster", movieObj["poster"].toObject()["urls"].toObject()["w500"].toString());
+	final.insert("bg", movieObj["backdrop"].toObject()["urls"].toObject()["w1280"].toString());
+
+	QJsonDocument sourcesDoc(final);
 	done(sourcesDoc);
 
 }

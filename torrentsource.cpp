@@ -6,6 +6,7 @@ TorrentSource::TorrentSource(QJsonObject torrentObject) : kind(TORRENT)
 	size = torrentObject["size"].toDouble();
 	quality = torrentObject["quality"].toString();
 	magnet = torrentObject["magnet"].toString();
+	filename = torrentObject["name"].toString();
 }
 
 QJsonObject TorrentSource::toJSON()
@@ -25,5 +26,6 @@ QJsonObject TorrentSource::toJSON()
 	obj.insert("quality", quality);
 	obj.insert("seed", seed);
 	obj.insert("size", size);
+	obj.insert("filename", filename);
 	return obj;
 }

@@ -13,6 +13,8 @@ public:
 	QString quality;
 	QString magnet;
 	int seed, size;
+	QString filename;
+	QString img;
 
 	virtual QJsonObject toJSON();
 	virtual Kind getKind() { return kind; }
