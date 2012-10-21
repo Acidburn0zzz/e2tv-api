@@ -2,6 +2,8 @@
 #include "netflixsource.h"
 #include "torrentsource.h"
 #include "trailersource.h"
+#include "dailysource.h"
+#include "youtubesource.h"
 #include <iostream>
 #include <QCoreApplication>
 #include <QJsonArray>
@@ -11,7 +13,8 @@ Sources::Sources(const Demand &demand, QObject *parent) :
 	QObject(parent), query(demand.query), type(INVALID),
 	url_freebase("https://www.googleapis.com/freebase/v1/mqlread"),
 	url_movies("http://api.movies.io/movies/search"),
-	url_series("http://api.dailytvtorrents.org/1.0/episode.getLatest")
+	url_series("http://api.dailytvtorrents.org/1.0/episode.getLatest"),
+	url_youtube("https://gdata.youtube.com/feeds/api/videos")
 {
 	url_freebase.addQueryItem("key", "AIzaSyBqWmqxOJglrngvGvUdbcS160y3XCBCaaE");
 
@@ -61,6 +64,19 @@ void Sources::execute_shows(QString title)
 	manager->get(QNetworkRequest(url_series));
 }
 
+void Sources::execute_youtube()
+{
+	url_youtube.addQueryItem("max-results", "1");
+	url_youtube.addQueryItem("v", "2");
+	url_youtube.addQueryItem("alt", "json");
+	url_youtube.addQueryItem("q", title_ + " trailer");
+	url_youtube.addQueryItem("fields", "entry(link)");
+
+	QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+	connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished_youtube(QNetworkReply*)));
+	manager->get(QNetworkRequest(url_youtube));
+}
+
 
 void Sources::done(QJsonDocument jsonDoc)
 {
@@ -79,11 +95,12 @@ void Sources::replyFinished_freebase(QNetworkReply *reply)
 	QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
 	QString title = jsonDoc.object()["result"].toArray().first().toObject()["name"].toString();
 
+	title_ = title;
+
 	if (type == FILM)
 		execute_movies(title);
 	else
 		execute_shows(title);
-		//qDebug() << title.toLower().replace(" ", "-");
 }
 
 void Sources::replyFinished_movies(QNetworkReply *reply)
@@ -145,44 +162,31 @@ void Sources::replyFinished_series(QNetworkReply *reply)
 {
 	if (reply->error() != QNetworkReply::NoError)
 	{
-		QJsonObject obj;
-		obj.insert("network_error", reply->errorString());
-		done(QJsonDocument(obj));
+		execute_youtube();
 		return;
 	}
 	QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
-	QJsonArray ret;
-
-	QJsonObject ref;
-	ref.insert("kind", QString("Torrent"));
-	ref.insert("name", QString("Torrent"));
-	ref.insert("service", QString("Daily TV Torrents"));
-	ref.insert("num", jsonDoc.object()["num"].toString());
-	if (!jsonDoc.object()["title"].isNull())
-		ref.insert("title", jsonDoc.object()["title"].toString());
 
 	if (!jsonDoc.object()["hd"].isNull())
-	{
-		QJsonObject hdObj(ref);
-		hdObj.insert("quality", QString("HD"));
-		hdObj.insert("url", jsonDoc.object()["hd"].toString());
-		ret.append(hdObj);
-	}
+		sources.append(new DailySource(jsonDoc.object(), "hd"));
 	if (!jsonDoc.object()["720"].isNull())
-	{
-		QJsonObject hdObj(ref);
-		hdObj.insert("quality", QString("HD720"));
-		hdObj.insert("url", jsonDoc.object()["720"].toString());
-		ret.append(hdObj);
-	}
+		sources.append(new DailySource(jsonDoc.object(), "720"));
 	if (!jsonDoc.object()["1080"].isNull())
-	{
-		QJsonObject hdObj(ref);
-		hdObj.insert("quality", QString("HD1080"));
-		hdObj.insert("url", jsonDoc.object()["1080"].toString());
-		ret.append(hdObj);
-	}
+		sources.append(new DailySource(jsonDoc.object(), "1080"));
+
+	execute_youtube();
+}
+
+void Sources::replyFinished_youtube(QNetworkReply *reply)
+{
+	QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+	sources.append(new YoutubeSource(jsonDoc.object()));
+
+	QJsonArray ret;
+	for (Source* source : sources)
+		ret.append(source->toJSON());
 	QJsonObject final;
 	final.insert("sources", ret);
-	done(QJsonDocument(final));
+	QJsonDocument sourcesDoc(final);
+	done(sourcesDoc);
 }

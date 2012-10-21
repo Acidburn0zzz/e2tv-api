@@ -21,16 +21,19 @@ public:
 	void execute_freebase();
 	void execute_movies(QString title);
 	void execute_shows(QString title);
+	void execute_youtube();
 
 	void done(QJsonDocument jsonDoc);
 
 	QString query;
 	Type type;
 	QString id;
+	QString title_;
 
 	QUrl url_freebase;
 	QUrl url_movies;
 	QUrl url_series;
+	QUrl url_youtube;
 
 	QList<Source*> sources;
 	
@@ -40,6 +43,7 @@ public slots:
 	void replyFinished_freebase(QNetworkReply* reply);
 	void replyFinished_movies(QNetworkReply* reply);
 	void replyFinished_series(QNetworkReply* reply);
+	void replyFinished_youtube(QNetworkReply* reply);
 };
 
 #endif // SOURCES_H
