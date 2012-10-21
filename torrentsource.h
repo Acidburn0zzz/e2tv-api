@@ -12,7 +12,8 @@ public:
 	QString name;
 	QString quality;
 	QString magnet;
-	int seed, size;
+	QString sizeStr;
+	int seed;
 	QString filename;
 	QString img;
 
