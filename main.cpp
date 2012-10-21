@@ -5,9 +5,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	Demand demand = Demand::fromArguments(app.arguments());
-
-	demand.execute();
+	Demand::fromArguments(app.arguments()).execute();
 	
 	return app.exec();
 }

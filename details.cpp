@@ -35,14 +35,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 						 "name": null,
 						 "program_creator": [],
 						 "type": "/tv/tv_program",
-						 "/common/topic/image": [{}],
-			"seasons": [{ "name": null, "/common/topic/image": [{}], "season_number": null, "sort": "season_number", "episodes": [{
-			"name" : null,
-			"mid" : null,
-			"/common/topic/image": [{}],
-			"episode_number": null,
-			"sort": "episode_number"
-		  }] }] }])*");
+						 "/common/topic/image": [{}]}])*");
 }
 
 void Details::execute()

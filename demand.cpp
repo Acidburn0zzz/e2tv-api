@@ -2,7 +2,6 @@
 #include "search.h"
 #include "details.h"
 #include "sources.h"
-#include "channels.h"
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -19,9 +18,8 @@ Demand Demand::fromArguments(QStringList arguments)
 	Demand demand;
 
 	arguments.removeFirst();
-
 	if (arguments.empty())
-		qApp->exit();
+		return demand;
 
 	if (arguments.first() == "--search")
 		demand.method = SEARCH;
@@ -29,8 +27,6 @@ Demand Demand::fromArguments(QStringList arguments)
 		demand.method = DETAILS;
 	else if (arguments.first() == "--sources")
 		demand.method = SOURCES;
-	else if (arguments.first() == "--channels")
-		demand.method = CHANNELS;
 	else
 		return demand;
 
@@ -63,11 +59,6 @@ void Demand::execute()
 	{
 		Sources* sources = new Sources(*this);
 		sources->execute();
-	}
-	else if (method == CHANNELS)
-	{
-		Channels* channels = new Channels;
-		channels->execute();
 	}
 	else
 	{

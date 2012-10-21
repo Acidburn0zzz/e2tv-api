@@ -18,7 +18,7 @@ public:
 
 	virtual QJsonObject toJSON();
 	virtual Kind getKind() { return kind; }
-	virtual QString getServiceName() { return "Torrent"; }
+	virtual QString getServiceName() { return "Movies.io"; }
 	virtual QString getName() { return "Torrent"; }
 
 };

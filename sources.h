@@ -20,6 +20,7 @@ public:
 	void execute();
 	void execute_freebase();
 	void execute_movies(QString title);
+	void execute_shows(QString title);
 
 	void done(QJsonDocument jsonDoc);
 
@@ -29,6 +30,7 @@ public:
 
 	QUrl url_freebase;
 	QUrl url_movies;
+	QUrl url_series;
 
 	QList<Source*> sources;
 	
@@ -37,7 +39,7 @@ signals:
 public slots:
 	void replyFinished_freebase(QNetworkReply* reply);
 	void replyFinished_movies(QNetworkReply* reply);
-	
+	void replyFinished_series(QNetworkReply* reply);
 };
 
 #endif // SOURCES_H

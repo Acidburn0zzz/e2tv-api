@@ -7,7 +7,7 @@
 class Demand
 {
 public:
-	enum Method { INVALID, SEARCH, DETAILS, SOURCES , CHANNELS };
+	enum Method { INVALID, SEARCH, DETAILS, SOURCES };
 
 	Demand();
 	void execute();
