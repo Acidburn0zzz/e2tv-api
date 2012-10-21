@@ -26,8 +26,7 @@ Details::Details(const Demand &demand, QObject *parent) :
 						 "name": null,
 						 "type": "/film/film",
 						 "directed_by": [],
-						 "/common/topic/image": [{}],
-						 "rating": null }])*");
+						 "/common/topic/image": [{}] }])*");
 
 
 	else if (type == TV)
